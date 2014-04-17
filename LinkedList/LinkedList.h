@@ -1,3 +1,18 @@
+/* Filename:        LinkedList.h
+ * Last Modified:   14 March 2014
+ * Author:          Todd Parker
+ * Email:           todd.i.parker@maine.edu
+ * Course:          CIS354 - Algorithms and Data Structures
+ * 
+ * LinkedList.h is a generic class that allows for the creation and maintenance
+ * of a linked list. The only code added to LinkedList.h is the function remove(),
+ * which was required for completion of the Module #4 Programming assignment. 
+ * remove() first tests to ensure the Linked List has elements, then checks if the
+ * passed element exists in the Linked List, and finally deletes all occurences of 
+ * the passed element if it exists; and prints appropiate messages if it does not.
+ * The remove() function reuses existing methods indexOf, to return index of item
+ * if it exists, and removeAt() to remove an item by its index in Linked List.
+ */
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 #include <stdexcept>
@@ -12,13 +27,13 @@ public:
 
   Node() // No-arg constructor
   {
-    next = NULL;
+	next = NULL;
   }
 
   Node(T element) // Constructor
   {
-    this->element = element;
-    next = NULL;
+	this->element = element;
+	next = NULL;
   }
 };
 
@@ -28,35 +43,35 @@ class Iterator: public std::iterator<std::forward_iterator_tag, T>
 public:
   Iterator(Node<T>* p)
   {
-    current = p;
+	current = p;
   };
 
   Iterator operator++() // Prefix ++
   {
-    current = current->next;
-    return *this;
+	current = current->next;
+	return *this;
   }
 
   Iterator operator++(int dummy) // Postfix ++
   {
-    Iterator temp(current);
-    current = current->next;
-    return temp;
+	Iterator temp(current);
+	current = current->next;
+	return temp;
   }
 
   T& operator*()
   {
-    return current->element;
+	return current->element;
   }
 
   bool operator==(const Iterator<T>& iterator)
   {
-    return current == iterator.current;
+	return current == iterator.current;
   }
 
   bool operator!=(const Iterator<T>& iterator)
   {
-    return current != iterator.current;
+	return current != iterator.current;
   }
 
 private:
@@ -91,12 +106,12 @@ public:
 
   Iterator<T> begin() const
   {
-    return Iterator<T>(head);
+	return Iterator<T>(head);
   };
 
   Iterator<T> end() const
   {
-    return Iterator<T>(tail->next);
+	return Iterator<T>(tail->next);
   };
 
 private:
@@ -121,8 +136,8 @@ LinkedList<T>::LinkedList(LinkedList<T>& list)
   Node<T>* current = list.head;
   while (current != NULL)
   {
-    this->add(current->element);
-    current = current->next;
+	this->add(current->element);
+	current = current->next;
   }
 }
 
@@ -141,7 +156,7 @@ void LinkedList<T>::addFirst(T element)
   size++;
 
   if (tail == NULL)
-    tail = head;
+	tail = head;
 }
 
 template<typename T>
@@ -149,12 +164,12 @@ void LinkedList<T>::addLast(T element)
 {
   if (tail == NULL)
   {
-    head = tail = new Node<T>(element);
+	head = tail = new Node<T>(element);
   }
   else
   {
-    tail->next = new Node<T>(element);
-    tail = tail->next;
+	tail->next = new Node<T>(element);
+	tail = tail->next;
   }
 
   size++;
@@ -164,18 +179,18 @@ template<typename T>
 T LinkedList<T>::getFirst() const
 {
   if (size == 0)
-    throw runtime_error("Index out of range");
+	throw runtime_error("Index out of range");
   else
-    return head->element;
+	return head->element;
 }
 
 template<typename T>
 T LinkedList<T>::getLast() const
 {
   if (size == 0)
-    throw runtime_error("Index out of range");
+	throw runtime_error("Index out of range");
   else
-    return tail->element;
+	return tail->element;
 }
 
 template<typename T>
@@ -185,13 +200,13 @@ T LinkedList<T>::removeFirst() throw (runtime_error)
    throw runtime_error("No elements in the list");
   else
   {
-    Node<T>* temp = head;
-    head = head->next;
-    if (head == NULL) tail = NULL;
-    size--;
-    T element = temp->element;
-    delete temp;
-    return element;
+	Node<T>* temp = head;
+	head = head->next;
+	if (head == NULL) tail = NULL;
+	size--;
+	T element = temp->element;
+	delete temp;
+	return element;
   }
 }
 
@@ -199,30 +214,30 @@ template<typename T>
 T LinkedList<T>::removeLast()
 {
   if (size == 0)
-    throw runtime_error("No elements in the list");
+	throw runtime_error("No elements in the list");
   else if (size == 1)
   {
-    Node<T>* temp = head;
-    head = tail = NULL;
-    size = 0;
-    T element = temp->element;
-    delete temp;
-    return element;
+	Node<T>* temp = head;
+	head = tail = NULL;
+	size = 0;
+	T element = temp->element;
+	delete temp;
+	return element;
   }
   else
   {
-    Node<T>* current = head;
+	Node<T>* current = head;
 
-    for (int i = 0; i < size - 2; i++)
-      current = current->next;
+	for (int i = 0; i < size - 2; i++)
+	  current = current->next;
 
-    Node<T>* temp = tail;
-    tail = current;
-    tail->next = NULL;
-    size--;
-    T element = temp->element;
-    delete temp;
-    return element;
+	Node<T>* temp = tail;
+	tail = current;
+	tail->next = NULL;
+	size--;
+	T element = temp->element;
+	delete temp;
+	return element;
   }
 }
 
@@ -236,18 +251,18 @@ template<typename T>
 void LinkedList<T>::add(int index, T element)
 {
   if (index == 0)
-    addFirst(element);
+	addFirst(element);
   else if (index >= size)
-    addLast(element);
+	addLast(element);
   else
   {
-    Node<T>* current = head;
-    for (int i = 1; i < index; i++)
-      current = current->next;
-    Node<T>* temp = current->next;
-    current->next = new Node<T>(element);
-    (current->next)->next = temp;
-    size++;
+	Node<T>* current = head;
+	for (int i = 1; i < index; i++)
+	  current = current->next;
+	Node<T>* temp = current->next;
+	current->next = new Node<T>(element);
+	(current->next)->next = temp;
+	size++;
   }
 }
 
@@ -256,9 +271,9 @@ void LinkedList<T>::clear()
 {
   while (head != NULL)
   {
-    Node<T>* temp = head;
-    head = head->next;
-    delete temp;
+	Node<T>* temp = head;
+	head = head->next;
+	delete temp;
   }
 
   tail = NULL;
@@ -269,11 +284,11 @@ template<typename T>
 T LinkedList<T>::get(int index) const
 {
   if (index < 0 || index > size - 1)
-    throw runtime_error("Index out of range");
+	throw runtime_error("Index out of range");
 
   Node<T>* current = head;
   for (int i = 0; i < index; i++)
-    current = current->next;
+	current = current->next;
 
   return current->element;
 }
@@ -285,9 +300,9 @@ int LinkedList<T>::indexOf(T element) const
   Node<T>* current = head;
   for (int i = 0; i < size; i++)
   {
-    if (current->element == element)
-      return i;
-    current = current->next;
+	if (current->element == element)
+	  return i;
+	current = current->next;
   }
 
   return -1;
@@ -309,31 +324,56 @@ template<typename T>
 T LinkedList<T>::removeAt(int index)
 {
   if (index < 0 || index >= size)
-    throw runtime_error("Index out of range");
+	throw runtime_error("Index out of range");
   else if (index == 0)
-    return removeFirst();
+	return removeFirst();
   else if (index == size - 1)
-    return removeLast();
+	return removeLast();
   else
   {
-    Node<T>* previous = head;
+	Node<T>* previous = head;
 
-    for (int i = 1; i < index; i++)
-    {
-      previous = previous->next;
-    }
+	for (int i = 1; i < index; i++)
+	{
+	  previous = previous->next;
+	}
 
-    Node<T>* current = previous->next;
-    previous->next = current->next;
-    size--;
-    T element = current->element;
-    delete current;
-    return element;
+	Node<T>* current = previous->next;
+	previous->next = current->next;
+	size--;
+	T element = current->element;
+	delete current;
+	return element;
   }
 }
 
-  // The functions remove(T element), lastIndexOf(T element),
-  // contains(T element), and set(int index, T element) are
-  // left as an exercise
+template<typename T>
+void LinkedList<T>::remove(T element)
+{
+	// Make sure linked list is not empty
+	if (size == 0)
+	{
+		throw runtime_error("List is empty");
+	} // end if
+	else if (indexOf(element) < 0)
+		cout << "\n\t \"" << element << "\" was not found in list.\n" << endl;
+	else
+	{
+		// Copy list size so deletes don't cause loop to skip elements
+		int listSize = size;
+
+		while (listSize > 0)
+		{
+			// Find index of element or return -1
+			int elementIndex = indexOf(element);
+			if (elementIndex > 0)
+				// Delete found item by index
+				removeAt(elementIndex);
+			listSize--;
+		}
+
+
+	} // end else
+} // end remove function
 
 #endif
